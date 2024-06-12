@@ -18,7 +18,6 @@ jobs:
           node-version: 20
           cache: npm
 
-
       - name: Install dependencies
         run: npm ci
       - name: Install Search Pluin
