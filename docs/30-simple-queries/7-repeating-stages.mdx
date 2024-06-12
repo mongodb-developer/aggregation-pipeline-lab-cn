@@ -1,22 +1,22 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 🦸‍♂️ Repeating stages
+# 🦸‍♂️ 重复阶段
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+额外活动：如果您有额外的时间或在家跟着做，可以尝试，导师不会在动手实验中进行讲解
 :::
 
+从 [Aggregation Pipelines 手册](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#stages) 中引用：
 
-From the [Aggregation Pipelines manual](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#stages).
+> 除了 $out, $merge, $geoNear, $changeStream 和 $changeStreamSplitLargeEvent 阶段外，其他所有阶段都可以在一个管道中多次出现。
 
-> All stages except the $out, $merge, $geoNear, $changeStream, and $changeStreamSplitLargeEvent stages can appear multiple times in a pipeline.
+因此我们可以重复大多数阶段，并做类似于以下操作，以获取1985年且页数超过100页的所有书籍（尽管这可能有意义或没有意义）
 
-So we can repeat most stages, and do something like this to get all books from 1985 with more than 100 pages (although it can make sense or not)
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 
-```js
+```
 [
     {
         $match: { pages: {$gte: 100} }
@@ -29,22 +29,20 @@ So we can repeat most stages, and do something like this to get all books from 1
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
-```js
+```
 db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
 ```
   </TabItem>
 </Tabs>
 
-
-
-💻 Add several `$limit` stages at the end of the above aggregation, limiting to 1 book and see what happens
+💻 在上述聚合的末尾添加几个 `$limit` 阶段，限制为1本书，看看会发生什么
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
-```js
+```
 [
     {$match: {pages: {$gte: 100}}}, 
     {$match: {year: 2011}},
@@ -55,7 +53,7 @@ db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
-```js
+```
 db.books.aggregate([
     {$match: {pages: {$gte: 100}}}, 
     {$match: {year: 2011}},
@@ -65,7 +63,6 @@ db.books.aggregate([
 ```
   </TabItem>
 </Tabs>
-
 
 </div>
 </details>

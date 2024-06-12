@@ -1,14 +1,14 @@
 ---
-description: See the parts that compose an Aggregation Pipeline 
+description: 查看组成聚合管道的部分
 ---
 
-# 📘 Structure of an aggregation pipeline
+# 📘 聚合管道的结构
 
-To interact with a relational database we typically use SQL, a 4th Generation language to access our data. With MongoDB we instead get data and transform it in incremental steps.
+通常，我们使用 SQL 这种第四代语言来与关系型数据库进行交互。而在 MongoDB 中，我们通过增量步骤来获取和转换数据。
 
-An aggregation pipeline is composed of [__stages__](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/).
+一个聚合管道是由 [__阶段__](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/) 组成的。
 
-We pass an array of stages to the `aggregate` method like so:
+我们将一个包含多个阶段的数组传递给 `aggregate` 方法，如下所示：
 
 ```
 db.mycollection.aggregate([
@@ -18,16 +18,16 @@ db.mycollection.aggregate([
 ])
 ```
 
-## Example
+## 示例
 
-An Aggregation Pipeline that does the same than above SQL statement could be:
+一个执行上述 SQL 语句的聚合管道示例如下：
 
 ```
 db.mycollection.aggregate([
   {
     $sort:
       /**
-       * Provide any number of field/order pairs.
+       * 提供任意数量的字段/排序对。
        */
       {
         num_mflix_comments: -1,
@@ -36,17 +36,16 @@ db.mycollection.aggregate([
   {
     $limit:
       /**
-       * Provide the number of documents to limit.
+       * 提供要限制的文档数量。
        */
       1,
   },
   {
     $unwind:
       /**
-       * path: Path to the array field.
-       * includeArrayIndex: Optional name for index.
-       * preserveNullAndEmptyArrays: Optional
-       *   toggle to unwind null and empty values.
+       * path: 数组字段的路径。
+       * includeArrayIndex: 索引名称（可选）。
+       * preserveNullAndEmptyArrays: 展开 null 和空值（可选）。
        */
       {
         path: "$cast",
@@ -55,8 +54,7 @@ db.mycollection.aggregate([
   {
     $project:
       /**
-       * Specifications: The fields to
-       *   include or exclude.
+       * 规范：要包含或排除的字段。
        */
       {
         cast: 1,

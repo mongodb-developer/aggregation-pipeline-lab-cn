@@ -1,8 +1,8 @@
 {
-  "label": "Grouping Results",
+  "label": "结果分组",
   "position": 70,
   "link": {
     "type": "generated-index",
-    "description": "Grouping."
+    "description": "分组。"
   }
 }

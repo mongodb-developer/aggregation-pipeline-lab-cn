@@ -3,35 +3,35 @@ import TabItem from '@theme/TabItem';
 
 # 👐 $match
 
-The $match operator is used in conjunction with the aggregation framework to filter documents in a collection. It takes a document as input and returns a new document containing only the documents that match the specified criteria. The syntax for the $match operator is as follows:
+$match 操作符与聚合框架一起使用，用于过滤集合中的文档。它接受一个文档作为输入，并返回一个新文档，仅包含符合指定条件的文档。$match 操作符的语法如下：
 
-```js
+```
 { $match: { <expression>: <value> } }
 ```
 
-## Expressions
+## 表达式
 
-The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes :
+$match 操作符中的 `<expression>` 部分可以是任何有效的 MongoDB 表达式。这包括：
 
-* Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`
-* Regular expressions: regex
-* Logical operators: and, or, not
-* Subdocuments and arrays: `{ field: <value> }, [ <item>, <item>, ... ]`
+* 比较操作符：`eq`、`neq`、`gte`、`lte`、`gt`、`lt`、`in`、`nin`、`exists`
+* 正则表达式：`regex`
+* 逻辑操作符：`and`、`or`、`not`
+* 子文档和数组：`{ field: <value> }, [ <item>, <item>, ... ]`
 
-## Matching book documents
+## 匹配书籍文档
 
 <Tabs groupId="aggregations-year">
   <TabItem value="atlas" label="Atlas UI">
 
-    First, make sure you select the `books` collection in the Atlas UI. 
-    <Screenshot src="/img/30-simple-queries/select-books-collection.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with the books collection highlighted." />
+    首先，确保在 Atlas UI 中选择 `books` 集合。
+    <Screenshot src="/img/30-simple-queries/select-books-collection.png" url="http://cloud.mongodb.com/" alt="Atlas UI 数据库部署，突出显示 books 集合。" />
 
-    Then, navigate to the `Aggregation` tab and click `Add Stage`.
-    <Screenshot src="/img/30-simple-queries/new-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with aggregation tab highlighted." />
+    然后，导航到 `Aggregation` 选项卡并点击 `Add Stage`。
+    <Screenshot src="/img/30-simple-queries/new-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI 数据库部署，突出显示聚合选项卡。" />
 
-    Say we want all the books from the year 2010. We can add a `$match` stage to filter the documents from the books collection:
+    假设我们想要所有 2010 年的书籍。我们可以添加一个 `$match` 阶段来过滤 books 集合中的文档：
 
-    ```js
+    ```
     [
         {
             $match: { year: 2010 }
@@ -39,28 +39,27 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
     ]
     ```
 
-    <Screenshot src="/img/30-simple-queries/match-screenshot.png" url="http://cloud.mongodb.com/" alt="Atlas AI $match aggregation." />
+    <Screenshot src="/img/30-simple-queries/match-screenshot.png" url="http://cloud.mongodb.com/" alt="Atlas AI $match 聚合。" />
 
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
-    Say we want all the books from 2010. We'll write:
+    假设我们想要所有 2010 年的书籍。我们会写：
 
-    ```js
+    ```
     db.books.aggregate([{$match: {year: 2010}}])
     ```
   </TabItem>
 </Tabs>
 
-
-👐 Return all the `books` that have exactly 100 pages.
+👐 返回所有有恰好 100 页的 `books`。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations-pages">
   <TabItem value="atlas" label="Atlas UI">
-```js
+```
 [
     {
         $match: { pages: 100 }
@@ -70,25 +69,24 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
 
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
-```js
+```
 db.books.aggregate([{$match: {pages: 100}}])
 ```
   </TabItem>
 </Tabs>
-
 
 </div>
 </details>
 
 ## AND
 
-If we need to add more conditions using AND, we can do it with the `$and` operator.
+如果我们需要使用 AND 添加更多条件，可以使用 `$and` 操作符。
 
-If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
+如果我们想要所有有 100 页并且 `totalInventory` 恰好为 2 的书籍，我们可以使用 `$and` 操作符。这个操作符接受一个包含所有条件的文档数组，这些条件都必须为真，AND 操作才会成功：
 
 <Tabs groupId="aggregations-and">
   <TabItem value="atlas" label="Atlas UI">
-```js
+```
 [
     {
         $match: {
@@ -102,27 +100,23 @@ If we want all the books with 100 pages with exactly `totalInventory` 2 we can u
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
-```js
+```
 db.books.aggregate([{$match: {$and: [{pages: 100}, {totalInventory: 2}]}}])
 ```
   </TabItem>
 </Tabs>
 
-
-
-
-The pseudo-code for this would be something like:
-
+伪代码如下：
 ```
 IF pages == 100 AND totalInventory == 2 {
-    return matching docs
+return matching docs
 }
 ```
 
-👐 Return all the `books` from 2015 that have exactly 100 pages.
+👐 返回所有 2015 年的 `books`，这些书籍恰好有 100 页。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations">
@@ -141,7 +135,7 @@ IF pages == 100 AND totalInventory == 2 {
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
-```js
+```
 db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 ```
   </TabItem>
@@ -149,11 +143,10 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 
 </div>
 </details>
-
-👐 How many are they?
+👐 它们有多少？
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations">
@@ -183,9 +176,9 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
 </div>
 </details>
 
-### Shorthand AND
+### 简写 AND
 
-We can do an implicit AND just passing a document with all the conditions (instead of an array of documents):
+我们可以通过传递包含所有条件的文档来进行隐式 AND（而不是文档数组）：
 
 <Tabs groupId="aggregations-shorthand-and">
   <TabItem value="atlas" label="Atlas UI">
@@ -204,11 +197,10 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
   </TabItem>
 </Tabs>
 
-
-👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
+👐 使用简单的 $and 语法返回所有 2015 年的 `books`，这些书籍恰好有 100 页
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations-shorthand-and-exercise">

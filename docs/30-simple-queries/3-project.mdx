@@ -3,9 +3,9 @@ import TabItem from '@theme/TabItem';
 
 # 👐 $project
 
-## Including fields in a projection 
+## 在输出中包括特定字段
 
-A document from the `books` collection looks like:
+`books` 集合中的文档如下所示：
 
 ```js
 {
@@ -59,8 +59,7 @@ A document from the `books` collection looks like:
 }
 ```
 
-If we're interested just in the titles, we can use `$project` to select just the fields we're interested in. As an example, to get just the book's title and year we'll write:
-
+如果我们只对书名感兴趣，我们可以使用 `$project` 选择我们感兴趣的字段。例如，要只获取书名和年份，我们可以这样写：
 
 <Tabs groupId="project">
   <TabItem value="atlas" label="Atlas UI">
@@ -73,19 +72,17 @@ If we're interested just in the titles, we can use `$project` to select just the
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
-
 ```js
 db.books.aggregate([{$project: {title: 1, year: 1}}])
 ```
   </TabItem>
 </Tabs>
 
+- 1 表示“显示该字段”
+- 0 表示“隐藏该字段”
+- 主键 `_id` 字段默认显示
 
-- 1 means "show that field"
-- 0 means "hide that field"
-- the primary key `_id` field is shown by default
-
-So we can exclude fields and show all fields except `attributes` using:
+所以我们可以排除字段，并显示除 `attributes` 之外的所有字段：
 
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
@@ -104,11 +101,10 @@ db.books.aggregate([{$project: {attributes: 0}}])
   </TabItem>
 </Tabs>
 
-
-👐 Show only `title` and `cover`.
+👐 仅显示 `title` 和 `cover`。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations">
@@ -130,12 +126,12 @@ db.books.aggregate([{$project: {title: 1, cover: 1}}])
 </div>
 </details>
 
-## Excluding fields
+## 排除字段
 
-👐 Exclude the `cover`, `attributes` and `_id` fields from the result.
+👐 从结果中排除 `cover`、`attributes` 和 `_id` 字段。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations">
@@ -158,16 +154,15 @@ db.books.aggregate([{$project: {_id: 0, attributes: 0, cover: 0}}])
 </div>
 </details>
 
-
-## Including and excluding fields
+## 包括和排除字段
 
 :::danger
 
-You can't include and exclude fields in the same projection: if you start including, you must keep including and vice versa.
+在同一个 $project 中不能同时包括和排除字段：如果你开始包括字段，你必须一直包括字段，反之亦然。
 
 :::
 
-For instance, this will fail:
+例如，这将失败：
 
 ```js
 db.books.aggregate([{$project: {title: 1, attributes: 0}}])
@@ -177,7 +172,7 @@ MongoServerError: Invalid $project :: caused by :: Cannot do exclusion on field 
 
 :::info
 
-The only exception to this rule is the `_id` field, which we can exclude in an inclusion projection.
+这个规则的唯一例外是 `_id` 字段，我们可以在包括字段的 $project 中排除它。
 
 :::
 

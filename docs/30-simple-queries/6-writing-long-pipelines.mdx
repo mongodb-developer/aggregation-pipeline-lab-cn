@@ -1,22 +1,21 @@
-# 👐 Writing long pipelines
+# 👐 编写长管道
 
-Aggregation pipelines can get very long, depending on how many stages we need to run. Writing a pipeline is writing code, as you will write it using one of the many MongoDB drivers in your own language. Here we're presenting the examples using JavaScript suitable for the MongoDB Shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/), but if you are writing a microservice in Rust, you'll definitely write your pipelines in Rust.
+聚合管道可能会变得很长，这取决于我们需要运行多少阶段。编写管道就是编写代码，因为你将使用你自己熟悉的编程语言中的 MongoDB 驱动程序（SDK）来编写它。这里我们使用适用于 MongoDB Shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/) 的 JavaScript 示例。但如果你在用 Rust 编写一个微服务，你肯定会用 Rust 编写你的管道，其他编程语言同理。
 
 :::danger
-The following syntax doesn't work in the Atlas UI aggregations editor. The editor doesn't support declaring variables.
+以下语法在 Atlas UI 聚合编辑器中不能使用。UI 编辑器不支持声明变量。
 :::
 
-This is why we should rewrite our last pipeline like this:
+这就是为什么我们应该像这样重写我们最后的管道：
 
-Get 15 books from 1985 with 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
+获取 1985 年有 150 页的 15 本书。仅显示 `title`、`year`、`totalInventory` 和 `available` 字段。 (示例文档 [这里](/docs/simple-queries/project))
 
 ```js
 db.books.aggregate([
     {$match: {year: 1985, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
 ])
 ```
-Will be changed into:
-
+将被更改为：
 
 ```js
 let booksFrom1985With150pages = {$match: {year: 1985, pages: 150}};
@@ -30,29 +29,28 @@ db.books.aggregate([
 ]);
 ```
 
-Easier to read, and reason about, right?
+更改后更容易阅读和理解，对吧？
 
-👐 Try to run the above pipeline and compare your results: should be the same as before
+👐 尝试运行上述管道并比较你的结果：应该与之前相同
 
 :::tip
 
-Write your aggregation pipelines like you'll compose functions in your programming language. Aggregations _are_ code that runs on the server. In the client you just express _what_ you want to be done, not _how_ to do it.
+您可以像在编程语言中组合函数一样编写你的聚合管道。聚合 _是_ 服务器上运行的代码。在客户端你只是表达 _需要_ 做什么，而不是 _如何_ 进行操作。
 
 :::
 
 :::tip
 
-As this is code, we can even add comments (starting with `//`) to our pipelines
+由于这是代码，我们甚至可以在管道中添加注释（以 `//` 开头）
 
 :::
 
+👐 我们还可以使用 `$gte` 获取 150 页或更多的书。检查 [文档](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) 中的 `$gte` 语法，并编写一个聚合管道以返回 1985 年超过 150 页的 15 本书。仅显示 `title`、`year`、`totalInventory` 和 `available` 字段。 (示例文档 [这里](/docs/simple-queries/project))
 
-👐 We can also use $gte to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
-
-_Hint:_ we'll need to use `$and` as maybe this is a bit more complex.
+_提示:_ 我们需要使用 `$and`，因为这可能有点复杂。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 ```js

@@ -1,6 +1,6 @@
 # 👐 $count
 
-How can we be sure that this pipeline is returning exactly 15 books?
+我们如何确定此管道返回的正好是15本书？
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -15,7 +15,7 @@ db.books.aggregate([
 ]);
 ```
 
-Counting the books! Let's add a new stage to the pipeline to count those books:
+计数书籍！让我们向管道中添加一个新阶段来计数这些书籍：
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -32,7 +32,7 @@ db.books.aggregate([
 ]);
 ```
 
-Here, `$count` will count the resulting docs and will return a document with just one field: `totalBooks`
+在这里，`$count`将计数结果文档并返回一个只有一个字段的文档：`totalBooks`
 
 ```js
 {
@@ -40,11 +40,10 @@ Here, `$count` will count the resulting docs and will return a document with jus
 }
 ```
 
-
-👐 How many authors do we have in our `authors` collection?
+👐 我们的`authors`集合中有多少作者？
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 ```js
@@ -53,9 +52,9 @@ db.authors.aggregate([{$count: "authorCount"}])
 </div>
 </details>
 
-## The order of stages is important
+## 阶段的顺序很重要
 
-If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` stage will return an empty document.
+如果我们在`$match`阶段之后进行计数，我们传递给下一步骤的文档只包含`totalBooks`字段。因此，`$project`阶段将返回一个空文档。
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}

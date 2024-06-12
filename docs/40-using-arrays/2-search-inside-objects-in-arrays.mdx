@@ -1,6 +1,6 @@
-# 👐 Searching inside Objects in arrays
+# 👐 在数组中的对象内搜索
 
-In our books we're using the [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) to have different attributes in our documents. As we can see in the [sample doc](/docs/simple-queries/project) we have an `attributes` array, containing several objects, each with the same structure:
+在我们的书籍中，我们使用了 [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) 来在文档中拥有不同的属性。正如我们在 [样本文档](/docs/simple-queries/project) 中看到的，我们有一个`attributes`数组，包含几个对象，每个对象具有相同的结构：
 
 ```js
 attributes: [
@@ -31,7 +31,7 @@ attributes: [
   ],
 ```
 
-How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes` has an object with key `msrp` and value `9.99`. We can get it to work with this:
+我们如何搜索所有售价为9.99的书籍？我们想要在`attributes`中有一个对象，其键为`msrp`且值为`9.99`的书籍。我们可以使用以下方式实现：
 
 ```js
 db.books.aggregate([
@@ -41,9 +41,9 @@ db.books.aggregate([
 ]);
 ```
 
-Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have which will be different for each of these generated docs.
+在这里，我们为`$attributes`数组中的每个对象获取每本书的副本。这将"展开"数组并返回相同文档的多个副本，每个副本具有不同的属性，这些属性对于每个生成的文档都是不同的。
 
-👐 To better understand `$unwind`, run this aggregation
+👐 为了更好地理解`$unwind`，运行此聚合
 
 ```js
 db.books.aggregate([
@@ -51,9 +51,10 @@ db.books.aggregate([
   { $unwind : "$attributes" },
 ]);
 ```
-You should get one document per attribute of the original book.
 
-But you can actually match documents in an array in a more straightforward fashion:
+你应该会为原书的每个属性获取一个文档。
+
+但你实际上可以更直接地匹配数组中的文档：
 
 ```js
 let nineNinetyNine = {$match: {"attributes.key": "msrp", "attributes.value": 9.99}};
@@ -64,5 +65,3 @@ db.books.aggregate([
     showOnlyTheseFields,
 ]);
 ```
-
-

@@ -1,7 +1,5 @@
-# Aggregation Pipeline Lab
+# 聚合管道实验室
 
-You can access the online version [here](https://mongodb-developer.github.io/aggregation-pipeline-lab/)
+你可以在 [这里](https://mongodb-developer.github.io/aggregation-pipeline-lab-cn/) 访问在线版本。
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator. We have a lab on how to use it available on https://mongodb-developer.github.io/docusaurus-workshop/.
-
-
+此网站是使用 [Docusaurus 2](https://docusaurus.io/)构建的，这是一个现代的静态网站生成器。我们在 https://mongodb-developer.github.io/docusaurus-workshop/ 上提供了如何使用它的实验室。

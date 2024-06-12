@@ -1,18 +1,18 @@
 ---
-description: Learn what is an Aggregation Pipeline 
+description: 了解什么是聚合管道
 ---
 
-# 📘 What is an Aggregation Pipeline
+# 📘 什么是聚合管道
 
 ![](/img/20-what-is-aggregation/aggregation-pipeline.png)
 
-An Aggregation Pipeline is similar to unix commands connected using pipes. 
-We can Construct modular, composable processing pipelines.
+聚合管道类似于使用管道连接的 Unix 命令。
+我们可以构建模块化、可组合的处理管道。
 
-An aggregation pipeline consists of one or more _stages_ that processes documents:
+一个聚合管道由一个或多个处理文档的 _阶段(stage)_ 组成：
 
-Each stage performs an operation on the input documents. For example, a stage can filter documents, group documents, and calculate values.
+每个阶段对输入文档执行一个操作。例如，一个阶段可以过滤文档、分组文档和计算值。
 
-The documents that are the output of a stage are passed as the input to the next stage.
+一个阶段的输出文档被作为输入，并传递给下一个阶段。
 
-An aggregation pipeline can return results for groups of documents. For example, return the total, average, maximum, and minimum values, etc.
+聚合管道可以返回文档组的结果。例如，返回总值、平均值、最大值和最小值等。

@@ -1,11 +1,11 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 👐 Combining stages
+# 👐 组合阶段
 
-Up until now, we've just been using one stage in the pipeline. But the power of the aggregation pipeline is that we can use many stages, and the output of one will be the input of the next. Think of it as UNIX pipes or using functional programming with `map`, `filter`, `reduce`, `flatmap`, etc.
+到目前为止，我们只在管道中使用了一个阶段。但聚合管道的强大之处在于我们可以使用多个阶段，一个阶段的输出将成为下一个阶段的输入。可以把它想象成 UNIX 管道或使用带有 `map`、`filter`、`reduce`、`flatmap` 等的函数式编程。
 
-Get 10 books from 2001 with 200 pages. Show only the title and authors.
+获取 2001 年 200 页的 10 本书。只显示标题和作者。
 
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
@@ -32,11 +32,10 @@ db.books.aggregate([
   </TabItem>
 </Tabs>
 
-
-👐 Get 15 books from 1985 with 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. If you don't remember which fields we have, you can refer to [the sample document](/docs/simple-queries/project).
+👐 获取 1985 年 150 页的 15 本书。只显示 `title`、`year`、`totalInventory` 和 `available` 字段。如果你不记得有哪些字段，可以参考[示例文档](/docs/simple-queries/project)。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 <Tabs groupId="aggregations">

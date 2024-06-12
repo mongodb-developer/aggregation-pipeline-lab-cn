@@ -1,17 +1,16 @@
-# 👐 Simple Array queries
+# 👐 简单数组查询
 
-## Find data in arrays
+## 在数组中查找数据
 
-A JSON Array can contain scalar values or objects. In our data, `authors` have an array of the books they've authored (their ISBNs). Let's get one author:
-
+一个 JSON 数组可以包含标量值或对象。在我们的数据中，`authors` 有一个包含他们创作的书籍（他们的 ISBN）的数组。让我们获取一个作者：
 
 ```js
 db.authors.aggregate([{$limit: 1}])
 ```
 
-👐 Run this aggregation to get one author
+👐 运行此聚合以获取一个作者
 
-I got this one (can change depending on the data source you imported)
+我得到了这个（可能会根据你导入的数据源而变化）
 
 ```js
 {
@@ -27,7 +26,7 @@ I got this one (can change depending on the data source you imported)
 }
 ```
 
-Can I get all authors for book `0002005018`? For that, I want all authors that have `0002005018` inside the `books` array. Turns out it's quite simple:
+我能获取书籍 `0002005018` 的所有作者吗？为此，我想要所有在 `books` 数组中包含 `0002005018` 的作者。事实证明这非常简单：
 
 ```js
 db.authors.aggregate([
@@ -35,10 +34,10 @@ db.authors.aggregate([
 ])
 ```
 
-👐 Get book's author name for ISBN `0395623650`:
+👐 获取 ISBN 为 `0395623650` 的书籍的作者姓名：
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 ```js
@@ -49,9 +48,9 @@ db.authors.aggregate([{$match: {books: "0395623650"}}])
 </div>
 </details>
 
-## Size of an array
+## 数组的大小
 
-What if we want to know how many aliases an Author has? To do that we can use `$size`, adding the array field that we're interested in:
+如果我们想知道一个作者有多少本书怎么办？为此我们可以使用 `$size`，添加我们需要知道大小的数组字段：
 
 ```js
 db.authors.aggregate([
@@ -63,10 +62,10 @@ db.authors.aggregate([
 ])
 ```
 
-👐 Who wrote the most books? (we can sort using `{ $sort: {"bookCount": -1}}`)
+👐 谁写的书最多？（我们可以使用 `{ $sort: {"bookCount": -1}}` 进行排序）
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
 ```js

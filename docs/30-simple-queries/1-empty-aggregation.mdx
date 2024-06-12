@@ -1,23 +1,23 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 👐 Empty aggregation pipeline
+# 👐 空聚合管道
 
-## An empty aggregation
+## 一个空的聚合
 
-This code is the equivalent to a `SELECT * FROM AUTHORS`. Returns a [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) with all documents in the `authors` collection:
+这段代码相当于 `SELECT * FROM AUTHORS`。返回一个包含 `authors` 集合中所有文档的 [游标（cursor）](https://www.mongodb.com/docs/manual/reference/method/js-cursor/)：
 
 <Tabs groupId="aggregations">
 
  <TabItem value="atlas" label="Atlas UI">
 
-<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI showing an empty aggregation pipeline" />
+<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI 显示空的聚合管道" />
 
-- Open the `Aggregation` tab.
-- Select `Text`.
-- Notice the empty array in the editor denoting an empty aggregation pipeline:
+- 打开 `Aggregation` 选项卡。
+- 选择 `Text`。
+- 输入如下一个空数组，注意编辑器中的空数组表示一个空的聚合管道：
 
-```js
+```
 []
 ```
  
@@ -25,45 +25,45 @@ This code is the equivalent to a `SELECT * FROM AUTHORS`. Returns a [cursor](htt
 
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
-```js
+```
 db.authors.aggregate([])
 ```
 
-We can iterate over the returned cursor and get more documents typing `it`. 
+我们可以遍历返回的游标并通过输入 `it` 获取更多的文档。
 
-👐 Return all the documents in the `books` collection and iterate to get the next page of books.
+👐 返回 `books` 集合中的所有文档并迭代获取下一页的书籍。
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
-```js
+```
 db.books.aggregate([])
 it
 ```
 </div>
 </details>
 
-## 🦸‍♂️ Cursor methods
+## 🦸‍♂️ 游标方法
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+额外活动：如果您有额外的时间或在家中进行，请执行此操作，动手实验期间不会涉及。
 :::
 
-A [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) has several useful methods, for instance we can check the size of the returned cursor with `itcount`
+一个[游标](https://www.mongodb.com/docs/manual/reference/method/js-cursor/)有几个有用的方法，例如我们可以使用 `itcount` 检查返回游标的大小
 
-```js
+```
 cursor.itcount()
 ```
 
-👐 In our previous example with the empty aggregation, to check the size of the returned cursor, what should we type in?
+👐 在我们之前的空聚合示例中，检查返回游标的大小，我们应该输入什么？
 
 <details>
-<summary>Answer</summary>
+<summary>答案</summary>
 <div>
 
-```js
-// as db.books.aggregate([]) returns a cursor we can just call itcount() on it
+```
+// 因为 db.books.aggregate([]) 返回一个游标，我们可以直接调用 itcount()
 db.books.aggregate([]).itcount()
 ```
 </div>

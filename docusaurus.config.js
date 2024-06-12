@@ -4,37 +4,38 @@
 // Change here to customise config
 
 // Name of the Github Repo, it's also teh baseUrl
-const workshopName = 'aggregation-pipeline-lab';
+const workshopName = 'aggregation-pipeline-lab-cn';
 // Change this if hosting outside mongodb-developer
 const organizationName = "mongodb-developer";
 
 // Main page config
-const title = "Aggregation Pipeline Lab";
-const tagLine = "Write Aggregation Pipelines in no time!";
-const startButtonTitle = "Start Lab";
+const title = "聚合管道实验室";
+const tagLine = "在短时间内学会如何编写聚合管道！";
+const startButtonTitle = "开始实验";
 const favicon = "img/favicon.svg"
+
 
 // Main Page Features
 const featureList = [
   {
-    title: 'Learn to write Aggregation Pipelines!',
+    title: '学习如何编写聚合管道',
     illustration: 'img/writing.png',
     description: `
-        Writing Aggregation Pipelines!
+        即刻开始编写聚合管道！
     `,
   },
   {
-    title: 'Compose pipeline stages',
+    title: '将聚合语句在管道中按需求组合',
     illustration: 'img/coding.png',
     description: `
-        Unleash the power of the Aggregation pipeline!
+        释放聚合管道的威力！
     `,
   },
   {
-    title: 'Get hands-on experience and sample code',
+    title: '获得实践经验和示例代码',
     illustration: 'img/highfive.png',
     description: `
-        Learn by doing and build your Apps faster!
+        通过实践学习知识，更快地构建应用程序！
     `,
   },
 ];
@@ -50,24 +51,24 @@ const utmParams = `utm_campaign=devrel&utm_source=workshop&utm_medium=cta&utm_co
 
 const footerLinks = [
   {
-    label: "Try MongoDB Atlas",
+    label: "试用 MongoDB Atlas",
     href: `https://www.mongodb.com/try?${utmParams}`,
   },
   {
-    label: "Forums",
+    label: "论坛",
     href: `https://www.mongodb.com/community/forums/${utmParams}`,
   },
   {
-    label: "Developer Center",
+    label: "开发者中心",
     href: `https://www.mongodb.com/developer/${utmParams}`,
   },
   {
-    label: "MongoDB University",
+    label: "MongoDB 大学",
     href: `https://learn.mongodb.com/${utmParams}`,
   },
   {
     href: `https://github.com/${organizationName}/${workshopName}`,
-    label: "This lab in GitHub",
+    label: "GitHub 上的更多实验",
   },
   {
     label: `© ${new Date().getFullYear()} MongoDB, Inc.`,

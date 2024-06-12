@@ -1,25 +1,26 @@
-# 🦸‍♂️ Advanced lookups
+# 🦸‍♂️ 高级 lookup
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+额外活动：如果您有额外的时间或在家跟着做，可以尝试，导师不会在动手实验中进行讲解
 :::
 
-We get this request: Write a `$lookup` to get `name` and `bio` from author's information inside each book document. To get this done, we need to review several things:
+我们收到这样的需求：写一个`$lookup`，以获取每个书籍文档中作者的信息，包括`name`和`bio`。为了完成这个任务，我们需要回顾几件事情：
 
-- each book can have several authors. This many to many relationship (as an author can also write many books) is modelled using two different arrays: a `books` array in the `authors` collection and an `authors` array in the `books` collection.
-- so we'll need to get a separate document for each book that has more than one author. If a book has three authors we'll use `$unwind` to get three documents with the same data except for the author, that will be each of the three authors.
+- 每本书可以有多个作者。这种多对多的关系（因为一个作者也可以写多本书）是通过两个不同的数组来建模的：`authors`集合中的一个`books`数组和`books`集合中的一个`authors`数组。
+- 所以我们需要为每本有多个作者的书籍获取一个单独的文档。如果一本书有三个作者，我们将使用`$unwind`来获取三个文档，这些文档的数据相同，除了作者字段的内容不同。
 
-You can try this with this Aggregation Pipeline:
+你可以使用这个聚合管道来尝试：
 
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
+    // 因为一本书可以有多个作者，我们为每个书籍的作者获取一个文档
     {$unwind: "$authors"},
-    // remove some noisy fields
+    // 删除一些干扰字段
     {$project: {attributes: 0, reviews: 0}}
 ])
 ```
-- now, we need to get the authors'information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: the ones inside our array are Strings, while the `author` collection `_id` are `ObjectId`.
+
+- 现在，我们需要获取作者的信息。为此，我们将使用`$lookup`，将`authors`集合中的`_id`与我们在每本书的`authors`数组中的`_id`进行链接。但正如我们在这里看到的，这些类型不同：我们数组中的那些是字符串，而`authors`集合中的`_id`是`ObjectId`。
 
 ```js
   authors: {
@@ -28,26 +29,26 @@ db.books.aggregate([
   },
 ```
 
-So we need to convert from `String` into `ObjectId`. We can do that using `$toObjectId`. This will add a new field `authorId` converting it into `ObjectId`:
+所以我们需要将`String`转换为`ObjectId`。我们可以使用`$toObjectId`来做到这一点。这将添加一个新字段`authorId`，将其转换为`ObjectId`：
 
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
+    // 因为一本书可以有多个作者，我们为每个书籍的作者获取一个文档
     {$unwind: "$authors"},
-    // convert it to an objectId
+    // 将其转换为ObjectId
     {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
-    // remove some noisy fields
+    // 删除一些干扰字段
     {$project: {attributes: 0, reviews: 0}}
 ])
 ```
 
-- now we're ready to do the `$lookup`: we want all documents from `authors` that have the same `_id` as the `authorId` we just created. We use a `pipeline` to get just `authors` `name` and `bio`.
+- 现在我们准备进行`$lookup`：我们希望获取所有`authors`中`_id`与我们刚刚创建的`authorId`相同的文档。我们使用一个`pipeline`来仅获取`authors`的`name`和`bio`。
 
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
+    // 因为一本书可以有多个作者，我们为每个书籍的作者获取一个文档
     {$unwind: "$authors"},
-    // convert it to an objectId
+    // 将其转换为ObjectId
     {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
     {$lookup: {
        from: "authors",
@@ -59,9 +60,7 @@ db.books.aggregate([
        as: "bookAuthorDetails"
      } 
     },
-    // remove some noisy fields
+    // 删除一些干扰字段
     {$project: {attributes: 0, reviews: 0}}
 ])
 ```
-
-

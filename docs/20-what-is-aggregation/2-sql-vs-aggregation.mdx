@@ -1,16 +1,16 @@
 ---
-description: Let's compare SQL with an Aggregation Pipeline 
+description: 让我们比较一下 SQL 和聚合管道
 ---
 
-# 📘 SQL vs Aggregations
+# 📘 SQL 与聚合
 
 ## SQL
 
-A SQL query statement usually starts with a `SELECT` where we put a list of the fields we need, then a `FROM` clause to state the table/s (or as in this case the subquery) that will return the rows. We can filter out using `WHERE` and group data using `GROUP`.
+一个 SQL 查询语句通常以 `SELECT` 开始，在这里我们列出所需的字段，然后是 `FROM` 子句来指定将返回行的表（或在本例中为子查询）。我们可以使用 `WHERE` 进行筛选，并使用 `GROUP` 对数据进行分组。
 
-We read this from the inside. If there's too much nesting is not easy to follow.
+我们从读取 SQL 需从嵌套中理解整个语句的含义。如果嵌套过多，则不易理解。
 
-```SQL
+```sql
 SELECT
     city,
     SUM(annual_spend) Total_Spend,
@@ -33,9 +33,9 @@ FROM (
 GROUP BY city;
 ```
 
-## Equivalent MongoDB Aggregation Pipeline
+## 等效的 MongoDB 聚合管道
 
-Here we pass three stages, one to return one document per element in the `address` array, then we filter out to get only the documents that have a `home` address location and finally we do the grouping. As we'll see, this can be split and tested separately, and resembles our code. 
+在这里我们通过三个阶段，一个返回 `address` 数组中每个元素的文档，然后我们筛选出仅包含 `home` 地址位置的文档，最后我们进行分组。正如我们将动手实践并看到的，MongoDB 聚合管道可以分开测试，并且运行逻辑类似于我们的代码结构本身。
 
 ```js
 db.customers.aggregate([
@@ -58,5 +58,5 @@ db.customers.aggregate([
 ```
 
 :::info
-See also [SQL to Aggregation Mapping Chart](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
+另请参阅 [SQL 与聚合映射表](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
 :::

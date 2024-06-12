@@ -1,8 +1,8 @@
 {
-    "label": "Using Arrays",
+    "label": "使用数组",
     "position": 50,
     "link": {
         "type": "generated-index",
-        "description": "Using arrays inside our documents."
+        "description": "在我们的示例数据中使用数组。"
     }
 }
